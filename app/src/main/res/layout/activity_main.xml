@@ -12,10 +12,38 @@
         layout="@layout/include_toolbar" />
 
     <RelativeLayout
-        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/mainlayout_empty"
+        android:layout_below="@+id/include_toolbar">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No Money added"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:id="@+id/no_money_added_placeholder"
+            style="@style/Base.TextAppearance.AppCompat.Headline"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/add_money"
+            android:layout_below="@+id/no_money_added_placeholder"
+            android:layout_marginTop="10dp"
+            android:onClick="goToAddMoneyActivity"
+            />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/mainlayout_with_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/include_toolbar"
+        android:visibility="gone"
         >
 
         <TextView

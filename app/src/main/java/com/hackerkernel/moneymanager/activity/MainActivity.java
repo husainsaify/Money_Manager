@@ -13,7 +13,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    @Bind(R.id.toolbar) Toolbar mToolbar;
+    @Bind(R.id.include_toolbar) Toolbar mToolbar;
     @Bind(R.id.fabAddMoney) FloatingActionButton mFabAddMoney;
     @Bind(R.id.fabSubtractMoney) FloatingActionButton mFabSubtractMoney;
 
@@ -40,5 +40,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }else if (v == mFabSubtractMoney){
             startActivity(new Intent(MainActivity.this,SubtractMoneyActivity.class));
         }
+    }
+
+    /*
+    * method to go to add money activity
+    * */
+    public void goToAddMoneyActivity(View view) {
+        startActivity(new Intent(MainActivity.this,AddMoneyActivity.class));
     }
 }
