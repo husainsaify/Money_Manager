@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">Money Manager</string>
+    <string name="subtract_money">Subtract Money</string>
+    <string name="add_money">Add Money</string>
+    <string name="amount">Amount</string>
+    <string name="description">Description</string>
+
+    <string-array name="money_type">
+        <item>Wallet</item>
+        <item>Bank</item>
+    </string-array>
+
+    <string-array name="money_type_code">
+        <item>1</item>
+        <item>2</item>
+    </string-array>
 </resources>

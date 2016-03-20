@@ -1,12 +1,14 @@
-package com.hackerkernel.moneymanager;
+package com.hackerkernel.moneymanager.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
+import com.hackerkernel.moneymanager.R;
+import com.hackerkernel.moneymanager.storage.Database;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -29,15 +31,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mFabAddMoney.setOnClickListener(this);
         mFabSubtractMoney.setOnClickListener(this);
+
+        Database db = new Database(this);
+        db.getWritableDatabase();
     }
 
 
     @Override
     public void onClick(View v) {
         if (v == mFabAddMoney){
-            Toast.makeText(getApplicationContext(),"Add money bitch",Toast.LENGTH_LONG).show();
+            startActivity(new Intent(MainActivity.this,AddMoneyActivity.class));
         }else if (v == mFabSubtractMoney){
-            Toast.makeText(getApplicationContext(),"sub money bitch",Toast.LENGTH_LONG).show();
+            startActivity(new Intent(MainActivity.this,SubtractMoneyActivity.class));
         }
     }
 }
