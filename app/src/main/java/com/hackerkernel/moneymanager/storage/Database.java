@@ -5,6 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
+
+import com.hackerkernel.moneymanager.R;
 
 /**
  * Class to handle SQlite database
@@ -12,6 +15,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class Database extends SQLiteOpenHelper {
     private static String DB_NAME = "money_manager";
     private static int DB_VERSION = 6;
+    private Context mContext;
 
     //money type
     public static int MONEY_WALLET = 1,
@@ -56,6 +60,7 @@ public class Database extends SQLiteOpenHelper {
 
     public Database(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
+        mContext = context;
     }
 
     /*
@@ -117,6 +122,57 @@ public class Database extends SQLiteOpenHelper {
         db.insert(TABLE_TRANSACTION,null,cv);
         db.close();
     }
+
+    /*
+    * Subtract money
+    * */
+    public boolean subtractMoney(String amountString, int moneyType) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        boolean returnVal = false;
+
+        //get Current time stamp
+        Long tsLong = System.currentTimeMillis() / 1000;
+        String timestamp = tsLong.toString();
+
+        //Check money field is present in database or not
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_MONEY + " WHERE " + COL_MONEY_TYPE + "=?", new String[]{moneyType + ""});
+        int count = cursor.getCount();
+        //if count = 0 add money row, else increment money
+        if (count != 0) {
+            //Update money
+            cursor.moveToFirst();
+
+            //get the old amount from database
+            String oldAmountString = cursor.getString(cursor.getColumnIndex(COL_MONEY_AMOUNT));
+            int oldAmount = Integer.parseInt(oldAmountString);
+            int amount = Integer.parseInt(amountString);
+
+            //check amount is less then old amount
+            if (amount > oldAmount){
+                Toast.makeText(mContext,"Cannot subtract "+amount+" RS because you only have "+oldAmount+" Rs",Toast.LENGTH_LONG).show();
+                return false;
+            }
+
+            //Create new amount
+            int newAmount = oldAmount - amount;
+
+            //update amount
+            ContentValues cv = new ContentValues();
+            cv.put(COL_MONEY_AMOUNT, newAmount);
+            cv.put(COL_MONEY_LAST_EDITED, timestamp);
+            db.update(TABLE_MONEY, cv, COL_MONEY_TYPE + "=?", new String[]{moneyType + ""});
+            //set return to success
+            returnVal = true;
+        }else{
+            Toast.makeText(mContext, R.string.no_money_found,Toast.LENGTH_LONG).show();
+            //set return to false
+            returnVal = false;
+        }
+        cursor.close();
+        return returnVal;
+    }
+
+
 
     @Override
     public void onCreate(SQLiteDatabase db) {
