@@ -5,9 +5,15 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.hackerkernel.moneymanager.R;
+import com.hackerkernel.moneymanager.pojo.TransacationPojo;
+
+import java.io.PipedOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class to handle SQlite database
@@ -172,6 +178,59 @@ public class Database extends SQLiteOpenHelper {
         return returnVal;
     }
 
+    /*
+    * Return wallet amount
+    * */
+    public int getMoney(int moneyType){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String[] col = new String[]{COL_MONEY_AMOUNT};
+        String[] selArgs = new String[]{moneyType+""};
+        Cursor cursor = db.query(TABLE_MONEY, col, COL_MONEY_TYPE + "=?", selArgs, null, null, null);
+        if (cursor.getCount() > 0){
+            //fetch amount
+            cursor.moveToFirst();
+            return cursor.getInt(cursor.getColumnIndex(COL_MONEY_AMOUNT));
+        }
+        return 0;
+    }
+
+    /*
+    * Get all the list of transaction
+    * */
+    public List<TransacationPojo> getAllTransaction(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_TRANSACTION, null, null, null, null, null, COL_TRANSACTION_ID + " DESC");
+        List<TransacationPojo> list = new ArrayList<>();
+        while (cursor.moveToNext()){
+            TransacationPojo pojo = new TransacationPojo();
+            String id = cursor.getString(cursor.getColumnIndex(COL_TRANSACTION_ID));
+            String amount = cursor.getString(cursor.getColumnIndex(COL_TRANSACTION_AMOUNT));
+            String description = cursor.getString(cursor.getColumnIndex(COL_TRANSACTION_DESCRIPTION));
+            String type = cursor.getString(cursor.getColumnIndex(COL_TRANSACTION_TYPE));
+            String moneyType = cursor.getString(cursor.getColumnIndex(COL_TRANSACTION_MONEY_TYPE));
+            String timestamp = cursor.getString(cursor.getColumnIndex(COL_TRANSACTION_TIME));
+
+            pojo.setId(id);
+            pojo.setAmount(amount);
+            pojo.setDescription(description);
+            pojo.setType(type);
+            pojo.setMoneyType(moneyType);
+            pojo.setTimestamp(timestamp);
+
+            list.add(pojo);
+        }
+        cursor.close();
+        return list;
+    }
+
+    /*
+    * Method to get transaction count
+    * */
+    public int getTransactionCount(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_TRANSACTION, null, null, null, null, null, null);
+        return cursor.getCount();
+    }
 
 
     @Override

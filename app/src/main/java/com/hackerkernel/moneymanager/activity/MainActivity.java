@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.hackerkernel.moneymanager.R;
+import com.hackerkernel.moneymanager.storage.Database;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -30,6 +32,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mFabAddMoney.setOnClickListener(this);
         mFabSubtractMoney.setOnClickListener(this);
+
+        Database db = new Database(this);
+        db.getAllTransaction();
     }
 
 
