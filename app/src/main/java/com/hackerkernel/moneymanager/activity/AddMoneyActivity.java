@@ -6,6 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -38,6 +39,8 @@ public class AddMoneyActivity extends AppCompatActivity implements View.OnClickL
         db = new Database(this);
 
         mAddMoneyButton.setOnClickListener(this);
+
+
     }
 
     @Override

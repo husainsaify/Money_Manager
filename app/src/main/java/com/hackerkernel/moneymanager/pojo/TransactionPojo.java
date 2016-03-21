@@ -1,7 +1,7 @@
 package com.hackerkernel.moneymanager.pojo;
 
 
-public class TransacationPojo {
+public class TransactionPojo {
     private String id,
             amount,
             description,

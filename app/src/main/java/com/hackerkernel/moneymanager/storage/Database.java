@@ -5,13 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.hackerkernel.moneymanager.R;
-import com.hackerkernel.moneymanager.pojo.TransacationPojo;
+import com.hackerkernel.moneymanager.pojo.TransactionPojo;
 
-import java.io.PipedOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -197,12 +195,12 @@ public class Database extends SQLiteOpenHelper {
     /*
     * Get all the list of transaction
     * */
-    public List<TransacationPojo> getAllTransaction(){
+    public List<TransactionPojo> getAllTransaction(){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_TRANSACTION, null, null, null, null, null, COL_TRANSACTION_ID + " DESC");
-        List<TransacationPojo> list = new ArrayList<>();
+        List<TransactionPojo> list = new ArrayList<>();
         while (cursor.moveToNext()){
-            TransacationPojo pojo = new TransacationPojo();
+            TransactionPojo pojo = new TransactionPojo();
             String id = cursor.getString(cursor.getColumnIndex(COL_TRANSACTION_ID));
             String amount = cursor.getString(cursor.getColumnIndex(COL_TRANSACTION_AMOUNT));
             String description = cursor.getString(cursor.getColumnIndex(COL_TRANSACTION_DESCRIPTION));
